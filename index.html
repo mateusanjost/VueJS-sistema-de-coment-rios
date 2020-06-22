@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>VUE JS FORMULÁRIO</title>
+</head>
+<body>
+    <div id="app"></div>
+
+   <!-- <div id="app">
+        <p>{{msg}}</p>
+        <p>{{ehVerdade ? 'Verdade' : 'False'}}</p>
+        <p>{{frutas[1] + " e " + frutas[1]}}</p>
+        <p>{{aluno.nome + "\n" + aluno.idade + 2}}</p>
+        <p>{{fun(1)}}</p>
+    </div>
+-->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    /* new Vue({
+        el: '#app',
+        data: {
+            msg: 'Teste de mensagem',
+            ehVerdade: true,
+            frutas: ['morango', 'uva', 'maça'],
+            aluno: {nome: 'Mateus', idade: '15'},
+        },
+        methods: {
+            fun(indice) {
+                return 'Fruta: ' + this.frutas[indice]
+            }
+        },
+    }) */
+
+    new Vue({
+        el: '#app',
+        template: `
+<div class="container">
+    <h1>Comentários</h1>
+    <hr>
+    <div class="form-todo formgroup">
+        <p>
+            <input v-model="name" placeholder="Nome" type="text" name="author" class="form-control" />
+
+        </p>
+        <p>
+            <textarea v-model="message" placeholder="Comentário" name="message" class="form-control"></textarea>
+        </p>
+        <button type="submit" v-on:click="addComment" class="btn btn-primary">Comentar</button>
+    </div>
+    <br>
+    <div class="list-group">
+        <div class="list-group-item" v-for="(comment,index) in allComments">
+            <span class="comment__author">Author: <strong>{{comment.name}}</strong></span>
+
+            <p>{{comment.message}}</p>
+            <div>
+                <a href="#" title="Excluir" v-on:click.prevent="removecomments(index)">Excluir</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+`,
+        data() {
+            return {
+                comments: [],
+                name: '',
+                message: '',
+            }
+        },
+        methods: {
+            addComment() {
+                if (this.message.trim() === '') {
+                    alert("Nome ou mensagem em branco.");
+                    return;
+                }
+                this.comments.push({
+                    name: this.name,
+                    message: this.message
+                });
+                this.name = '',
+                    this.message = '';
+                //console.log(this.name + '\n' + this.message);
+            },
+            removecomments(index) {
+                console.log(index);
+                this.comments.splice(index, 1);
+            }
+        },
+        computed: {
+            allComments(){
+            return this.comments.map(comment => ({
+...comment, name: comment.name.trim() === '' ? 'Anônimo' : comment.name
+            }))
+        }
+        },
+        watch: {
+            comments(val) {
+                console.log('val', val);
+            }
+        }
+    })
+    </script>
+
+</body>
+</html>
